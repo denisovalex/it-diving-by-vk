@@ -33,11 +33,11 @@ class ClientUtility
     }
   }
 
-  public function sendMessage(string $message_text)
+  public function sendMessage(string $message_text, int $reciever_id)
   {
     try {
       $this->client->messages()->send(Config::$ACCESS_TOKEN, [
-        'user_id' => Config::$RECEIVER_ID,
+        'user_id' => $reciever_id,
         'random_id' => rand(),
         'message' => $message_text,
       ]);
