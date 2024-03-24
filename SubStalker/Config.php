@@ -8,10 +8,10 @@ class Config
   static string $ACCESS_TOKEN; // токен сообщества (api ключ)
   static int $RECEIVER_ID; // айди получателя сообщений
 
-  static function build(string $group_id, string $access_token, string $receiver_id): void
+  static function build(int $group_id, string $access_token, int $receiver_id): void
   {
-    self::$GROUP_ID = (int) $group_id;
+    self::$GROUP_ID = $group_id;
     self::$ACCESS_TOKEN = $access_token;
-    self::$RECEIVER_ID = (int) $receiver_id;
+    self::$RECEIVER_ID = $receiver_id;
   }
 }
