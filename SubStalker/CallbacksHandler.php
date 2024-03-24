@@ -5,52 +5,26 @@ namespace SubStalker;
 use VK\CallbackApi\VKCallbackApiHandler;
 use VK\Client\VKApiClient;
 
+use SubStalker\Notifiers\AdminNotifier;
+
 class CallbacksHandler extends VKCallbackApiHandler
 {
-  private ClientUtility $client;
+  private VKApiClient $client;
 
   public function __construct(VKApiClient $client)
   {
-    $this->client = new ClientUtility($client);
+    $this->client = $client;
   }
 
   public function groupLeave(int $group_id, ?string $secret, array $object)
   {
-    $user_id = $object['user_id'];
-
-    $user = $this->client->getUser($user_id);
-    $group = $this->client->getGroup(Config::$GROUP_ID);
-
-    if (!$user) {
-      echo "error loading user {$user_id}\n";
-      return;
-    }
-
-    if (!$group) {
-      echo "error loading group {$group_id}\n";
-      return;
-    }
-
-    $this->client->sendMessage(MessageCreator::getUnsubText($user, $group));
+    $an = new AdminNotifier($this->client);
+    $an->notifyLeave((int) $object['user_id'], $group_id);
   }
 
   public function groupJoin(int $group_id, ?string $secret, array $object)
   {
-    $user_id = $object['user_id'];
-
-    $user = $this->client->getUser($user_id);
-    $group = $this->client->getGroup(Config::$GROUP_ID);
-
-    if (!$user) {
-      echo "error loading user {$user_id}\n";
-      return;
-    }
-
-    if (!$group) {
-      echo "error loading group {$group_id}\n";
-      return;
-    }
-
-    $this->client->sendMessage(MessageCreator::getSubText($user, $group));
+    $an = new AdminNotifier($this->client);
+    $an->notifyJoin((int) $object['user_id'], $group_id);
   }
 }
