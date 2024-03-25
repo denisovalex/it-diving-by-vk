@@ -8,16 +8,14 @@ use SubStalker\Entities\Subscriber;
 use SubStalker\Entities\Group;
 use SubStalker\Entities\AUser;
 
-use SubStalker\Config;
-
 class AdminNotifier extends ANotifier
 {
   private const NOTIFICATION_TYPE_JOIN = 'join';
   private const NOTIFICATION_TYPE_LEAVE = 'leave';
 
-  public function __construct(VKApiClient $client)
+  public function __construct(VKApiClient $client, int $admin_id)
   {
-    parent::__construct($client);
+    parent::__construct($client, $admin_id);
   }
 
   public function notifyJoin(int $user_id, int $group_id)
@@ -53,7 +51,7 @@ class AdminNotifier extends ANotifier
 
     $text = self::buildText($type, $user, $group);
 
-    $this->client->sendMessage($text, Config::$RECEIVER_ID);
+    $this->client->sendMessage($text, $this->reciever_id);
   }
 
   private function buildText(string $type, Subscriber $user, Group $group)
