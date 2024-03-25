@@ -6,12 +6,14 @@ class Config
 {
   static int $GROUP_ID; // айди сообщества
   static string $ACCESS_TOKEN; // токен сообщества (api ключ)
-  static int $RECEIVER_ID; // айди получателя сообщений
+  static int $ADMIN_ID; // айди администратора-получателя
+  static string $FORM_URL; // url формы для отзывов
 
-  static function build(int $group_id, string $access_token, int $receiver_id): void
+  static function build(int $group_id, string $access_token, int $admin_id, string $form_url): void
   {
     self::$GROUP_ID = $group_id;
     self::$ACCESS_TOKEN = $access_token;
-    self::$RECEIVER_ID = $receiver_id;
+    self::$ADMIN_ID = $admin_id;
+    self::$FORM_URL = $form_url;
   }
 }
