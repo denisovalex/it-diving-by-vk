@@ -14,10 +14,12 @@ class AdminNotifier extends ANotifier
 {
   private const NOTIFICATION_TYPE_JOIN = 'join';
   private const NOTIFICATION_TYPE_LEAVE = 'leave';
+  private int $receiver_id;
 
   public function __construct(VKApiClient $client)
   {
     parent::__construct($client);
+    $this->receiver_id = Config::$RECEIVER_ID;
   }
 
   public function notifyJoin(int $user_id, int $group_id)
@@ -53,7 +55,7 @@ class AdminNotifier extends ANotifier
 
     $text = self::buildText($type, $user, $group);
 
-    $this->client->sendMessage($text, Config::$RECEIVER_ID);
+    $this->client->sendMessage($text, $this->receiver_id);
   }
 
   private function buildText(string $type, Subscriber $user, Group $group)
